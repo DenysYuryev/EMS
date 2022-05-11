@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="Logo">
+    <file>Images/Logo/Icon_EnMS_Module.png</file>
+    <file>Images/Logo/Proleit.JPG</file>
+    <file>Images/Logo/Proleit.png</file>
+  </qresource>
+</RCC>
