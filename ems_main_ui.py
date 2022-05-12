@@ -17,53 +17,55 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 600)
         MainWindow.setMinimumSize(QtCore.QSize(800, 600))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setStyleSheet("@font-face {\n"
-"    font-family: NovaFlat;\n"
-"    scr: url(:/fonts/Nova_Flat/NovaFlat-Regular.ttf) format(\"trutype\");\n"
-"}\n"
-"*{\n"
-"    /*color: #00f;*/\n"
-"    font-family: NovaFlat;\n"
-"    font-size: 12px;\n"
-"    border: 1px;\n"
-"    background: none;    \n"
-"}\n"
-"#stack_1, #stack_2, #stack_3, #stack_4, #stack_5 {\n"
-"    background-color: rgba(33, 43, 51, 100)\n"
-"}\n"
-"#frame_window QPushButton{\n"
-"    padding: 5px;\n"
-"    border-radius: 5px;\n"
-"    background-color: rgba(33, 43, 51, 100);\n"
-"    border: 1px solid rgb(266, 255, 255);\n"
-"    text-style: solid;\n"
-"    text-align: center;\n"
-"    font: bold;\n"
-"}\n"
-"#frame_tool_box QPushButton{\n"
-"    padding: 5px;\n"
-"    border-radius: 5px;\n"
-"    background-color: rgba(33, 43, 51, 100);\n"
-"    border: 3px solid rgb(120, 157, 186);\n"
-"    text-style: solid;\n"
-"    text-align: left;\n"
-"    font: bold;\n"
-"}\n"
-"#toolBox{\n"
-"    background-color: rgba(33, 43, 51, 100);\n"
-"    border-radius: 5px;\n"
-"    font: bold;\n"
-"}\n"
-"#page_charts{\n"
-"    background-color: rgba(33, 43, 51, 100);\n"
-"}\n"
-"#frame_top, #frame_footer{\n"
-"    background-color: rgba(33, 43, 51, 100)\n"
-"}\n"
-"#line_1, #line_2{\n"
-"    border: 1px solid black;\n"
-"    border-style: inset;\n"
-"}")
+        self.centralwidget.setStyleSheet(
+                                        "@font-face {\n"
+                                        "    font-family: NovaFlat;\n"
+                                        "    scr: url(:/fonts/Nova_Flat/NovaFlat-Regular.ttf) format(\"trutype\");\n"
+                                        "}\n"
+                                        "*{\n"
+                                        "    /*color: #00f;*/\n"
+                                        "    font-family: NovaFlat;\n"
+                                        "    font-size: 12px;\n"
+                                        "    border: 1px;\n"
+                                        "    background: none;    \n"
+                                        "}\n"
+                                        "#stack_1, #stack_2, #stack_3, #stack_4, #stack_5 {\n"
+                                        "    background-color: rgba(33, 43, 51, 100);\n"
+                                        "    font: bold;\n"
+                                        "}\n"
+                                        "#frame_window QPushButton{\n"
+                                        "    padding: 5px;\n"
+                                        "    border-radius: 5px;\n"
+                                        "    background-color: rgba(33, 43, 51, 100);\n"
+                                        "    border: 1px solid rgb(266, 255, 255);\n"
+                                        "    text-style: solid;\n"
+                                        "    text-align: center;\n"
+                                        "    font: bold;\n"
+                                        "}\n"
+                                        "#frame_tool_box QPushButton{\n"
+                                        "    padding: 5px;\n"
+                                        "    border-radius: 5px;\n"
+                                        "    background-color: rgba(33, 43, 51, 100);\n"
+                                        "    border: 3px solid rgb(120, 157, 186);\n"
+                                        "    text-style: solid;\n"
+                                        "    text-align: left;\n"
+                                        "    font: bold;\n"
+                                        "}\n"
+                                        "#toolBox{\n"
+                                        "    background-color: rgba(33, 43, 51, 100);\n"
+                                        "    border-radius: 5px;\n"
+                                        "    font: bold;\n"
+                                        "}\n"
+                                        "#page_charts{\n"
+                                        "    background-color: rgba(33, 43, 51, 100);\n"
+                                        "}\n"
+                                        "#frame_top, #frame_footer{\n"
+                                        "    background-color: rgba(33, 43, 51, 100)\n"
+                                        "}\n"
+                                        "#line_1, #line_2{\n"
+                                        "    border: 1px solid black;\n"
+                                        "    border-style: inset;\n"
+                                        "}")
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -372,16 +374,16 @@ class Ui_MainWindow(object):
         self.stack_1.setObjectName("stack_1")
         self.verticalLayout_12 = QtWidgets.QVBoxLayout(self.stack_1)
         self.verticalLayout_12.setObjectName("verticalLayout_12")
-        self.frame_bar_name = QtWidgets.QFrame(self.stack_1)
-        self.frame_bar_name.setMinimumSize(QtCore.QSize(0, 40))
-        self.frame_bar_name.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_bar_name.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_bar_name.setObjectName("frame_bar_name")
-        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_bar_name)
+        self.frame_09 = QtWidgets.QFrame(self.stack_1)
+        self.frame_09.setMinimumSize(QtCore.QSize(0, 40))
+        self.frame_09.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_09.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_09.setObjectName("frame_09")
+        self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.frame_09)
         self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_11.setSpacing(0)
         self.verticalLayout_11.setObjectName("verticalLayout_11")
-        self.label_11 = QtWidgets.QLabel(self.frame_bar_name)
+        self.label_11 = QtWidgets.QLabel(self.frame_09)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -397,19 +399,19 @@ class Ui_MainWindow(object):
         self.label_11.setAlignment(QtCore.Qt.AlignCenter)
         self.label_11.setObjectName("label_11")
         self.verticalLayout_11.addWidget(self.label_11, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
-        self.verticalLayout_12.addWidget(self.frame_bar_name)
-        self.frame_bar = QtWidgets.QFrame(self.stack_1)
+        self.verticalLayout_12.addWidget(self.frame_09)
+        self.frame_data = QtWidgets.QFrame(self.stack_1)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.frame_bar.sizePolicy().hasHeightForWidth())
-        self.frame_bar.setSizePolicy(sizePolicy)
-        self.frame_bar.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_bar.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_bar.setObjectName("frame_bar")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.frame_bar)
+        sizePolicy.setHeightForWidth(self.frame_data.sizePolicy().hasHeightForWidth())
+        self.frame_data.setSizePolicy(sizePolicy)
+        self.frame_data.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_data.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_data.setObjectName("frame_data")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.frame_data)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.verticalLayout_12.addWidget(self.frame_bar)
+        self.verticalLayout_12.addWidget(self.frame_data)
         self.stackedWidget.addWidget(self.stack_1)
         self.stack_2 = QtWidgets.QWidget()
         self.stack_2.setObjectName("stack_2")
@@ -621,7 +623,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.toolBox.setCurrentIndex(0)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

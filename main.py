@@ -20,11 +20,9 @@ from PyQt5.QtCore import *
 
 shadow_elements = {
     "frame_left_menu",
-    "frame_bar",
-    "frame_bar_name",
-    "frame_suport",
-    "frame_rigth_view",
-    "frame_menu"
+    "frame_menu",
+    "frame_body",
+    "frame_footer"
 }
 
 
@@ -73,7 +71,6 @@ class App(QtWidgets.QMainWindow):
                     self.move(self.pos() + e.globalPos() - self.clickPosition)
                     self.clickPosition = e.globalPos()
                     e.accept()
-
         self.ui.frame_top.mouseMoveEvent = moveWindow
 
     def mini_maximize(self):
@@ -87,7 +84,6 @@ class App(QtWidgets.QMainWindow):
     # mouse current position
     def mousePressEvent(self, event):
         self.clickPosition = event.globalPos()
-
 
     def slideLeftMenu(self):
         width = self.ui.frame_left_menu.width()
