@@ -1,3 +1,7 @@
+# pyrcc5 icons.qrc -o icons_rc.py
+# pyrcc5 images.qrc -o images_rc.py
+# pyuic5 ems_main.ui -o ems_main_ui.py
+
 import os
 import sys
 import csv
@@ -33,28 +37,6 @@ class App(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        # hide/show menu
-        self.ui.pushButton_menu.clicked.connect(self.slideLeftMenu)
-
-        # hide windows tittle bar
-        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
-
-        # transparent background
-        # self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-
-        # set window icon and title
-        self.setWindowIcon(QtGui.QIcon("./Images/Logo/Icon_EnMS_Module.png"))
-        self.setWindowTitle("EMS")
-
-        # window fold
-        self.ui.pushButton_window_fold.clicked.connect(lambda: self.showMinimized())
-
-        # window minimize/maximize
-        self.ui.pushButton_window_resize.clicked.connect(lambda: self.mini_maximize())
-
-        # window close
-        self.ui.pushButton_window_close.clicked.connect(lambda: self.close())
-
         # shadow effect style
         for x in shadow_elements:
             effect = QtWidgets.QGraphicsDropShadowEffect(self)
@@ -63,6 +45,35 @@ class App(QtWidgets.QMainWindow):
             effect.setXOffset(0)
             effect.setYOffset(0)
             getattr(self.ui, x).setGraphicsEffect(effect)
+
+        # hide windows tittle bar
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+
+        # set window icon and title
+        self.setWindowIcon(QtGui.QIcon("./Images/Logo/Icon_EnMS_Module.png"))
+        self.setWindowTitle("EMS")
+
+        # transparent background
+        # self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+
+        # hide/show menu
+        self.ui.pushButton_menu.clicked.connect(self.slideLeftMenu)
+
+        # window fold
+        self.ui.pushButton_window_fold.clicked.connect(lambda: self.showMinimized())
+
+        # window minimize/maximize
+        self.ui.pushButton_window_resize.clicked.connect(lambda: self.mini_maximize())
+
+        # window close
+        self.ui.pushButton_window_close.clicked.connect(lambda: self.close())\
+
+        # nevigate on stack
+        self.ui.pushButton_1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_1))
+        self.ui.pushButton_2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_2))
+        self.ui.pushButton_3.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_3))
+        self.ui.pushButton_4.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_4))
+        self.ui.pushButton_5.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_5))
 
         # move window on mouse drag event on tittle bar
         def moveWindow(e):

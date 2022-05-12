@@ -32,8 +32,13 @@
 	border: 1px;
 	background: none;	
 }
-#stack_1, #stack_2, #stack_3, #stack_4, #stack_5 {
+#stack_1, #stack_2, #stack_3, #stack_4, #stack_5
+{
 	background-color: rgba(33, 43, 51, 100);
+}
+#stackWidget 
+{
+	font-size: 12px;
 	font: bold;
 }
 #frame_window QPushButton{
