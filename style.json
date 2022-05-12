@@ -1,0 +1,36 @@
+{
+  "QMainWindow": [
+    {
+      "tittle": "EMS",
+      "icon_ems": ":/Images/Logo/Icon_EnMS_Module.png",
+      "icon_proleit": ":/Images/Logo/Proleit.png",
+      "frameless": true,
+      "transluscent": true,
+      "sizeGrip": "size_grip",
+      "shadow": [
+        {
+          "color": "#fff",
+          "blurRadius":20,
+          "xOffset": 0,
+          "yOffset": 0,
+          "centralWidget": "centralwidget"
+        }
+      ],
+      "navigation": [
+        {
+          "minimize": "minimize_window_button",
+          "close": "close_window_button",
+          "restore": [
+            {
+              "buttonName": "restore_window_button",
+              "normalIcon": ":/Icons/Drip Icons V2/expand-2.svg",
+              "maximizedIcon": ":/Icons/Drip Icons V2/contract-2.svg"
+            }
+          ],
+          "moveWindow": "frame_top",
+          "tittleBar": "frame_top"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+@font-face {
+	font-family: NovaFlat;
+	scr: url(:/fonts/Nova_Flat/NovaFlat-Regular.ttf) format("trutype");
+}
+*{
+	color: #fff;
+	font-family: NovaFlat;
+	font-size: 12px;
+	border: 1px;
+	background: none;	
+}

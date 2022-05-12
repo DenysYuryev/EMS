@@ -20,12 +20,61 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">@font-face {
+	font-family: NovaFlat;
+	scr: url(:/fonts/Nova_Flat/NovaFlat-Regular.ttf) format(&quot;trutype&quot;);
+}
+*{
+	/*color: #00f;*/
+	font-family: NovaFlat;
+	font-size: 12px;
+	border: 1px;
+	background: none;	
+}
+#stack_1, #stack_2, #stack_3, #stack_4, #stack_5 {
+	background-color: rgba(33, 43, 51, 100)
+}
+#frame_window QPushButton{
+	padding: 5px;
+	border-radius: 5px;
+	background-color: rgba(33, 43, 51, 100);
+	border: 1px solid rgb(266, 255, 255);
+	text-style: solid;
+	text-align: center;
+	font: bold;
+}
+#frame_tool_box QPushButton{
+	padding: 5px;
+	border-radius: 5px;
+	background-color: rgba(33, 43, 51, 100);
+	border: 3px solid rgb(120, 157, 186);
+	text-style: solid;
+	text-align: left;
+	font: bold;
+}
+#toolBox{
+	background-color: rgba(33, 43, 51, 100);
+	border-radius: 5px;
+	font: bold;
+}
+#page_charts{
+	background-color: rgba(33, 43, 51, 100);
+}
+#frame_top, #frame_footer{
+	background-color: rgba(33, 43, 51, 100)
+}
+#line_1, #line_2{
+	border: 1px solid black;
+    border-style: inset;
+}</string>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QFrame" name="frame_left_menu">
       <property name="minimumSize">
        <size>
-        <width>250</width>
+        <width>0</width>
         <height>0</height>
        </size>
       </property>
@@ -91,7 +140,7 @@
            <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>0</number>
+           <number>5</number>
           </property>
           <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
            <widget class="QLabel" name="label">
@@ -109,10 +158,8 @@
             </property>
             <property name="font">
              <font>
-              <family>Arial</family>
-              <pointsize>12</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
+              <family>NovaFlat</family>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="text">
@@ -128,15 +175,21 @@
           </item>
           <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
            <widget class="QLabel" name="label_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
-              <width>150</width>
+              <width>140</width>
               <height>75</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>150</width>
+              <width>140</width>
               <height>75</height>
              </size>
             </property>
@@ -148,6 +201,12 @@
             </property>
             <property name="scaledContents">
              <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::LinksAccessibleByMouse</set>
             </property>
            </widget>
           </item>
@@ -191,7 +250,7 @@
            <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>0</number>
+           <number>5</number>
           </property>
           <item>
            <widget class="QToolBox" name="toolBox">
@@ -201,13 +260,13 @@
             <property name="currentIndex">
              <number>0</number>
             </property>
-            <widget class="QWidget" name="page_1">
+            <widget class="QWidget" name="page_charts">
              <property name="geometry">
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>243</width>
-               <height>343</height>
+               <width>245</width>
+               <height>306</height>
               </rect>
              </property>
              <property name="cursor">
@@ -218,7 +277,7 @@
              </attribute>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
-               <widget class="QFrame" name="frame_7">
+               <widget class="QFrame" name="frame_buttons_1">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -233,19 +292,19 @@
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
                  <property name="spacing">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <property name="leftMargin">
                   <number>1</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <property name="rightMargin">
                   <number>1</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>1</number>
                  </property>
                  <item>
                   <widget class="QPushButton" name="pushButton_1">
@@ -351,7 +410,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignTop">
+                 <item>
                   <widget class="QPushButton" name="pushButton_5">
                    <property name="minimumSize">
                     <size>
@@ -382,13 +441,13 @@
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="page_2">
+            <widget class="QWidget" name="page_tables">
              <property name="geometry">
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>243</width>
-               <height>343</height>
+               <width>245</width>
+               <height>138</height>
               </rect>
              </property>
              <property name="cursor">
@@ -402,6 +461,19 @@
           </item>
          </layout>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QFrame" name="frame_suport">
@@ -428,43 +500,80 @@
            <number>0</number>
           </property>
           <property name="topMargin">
-           <number>0</number>
+           <number>5</number>
           </property>
           <property name="rightMargin">
            <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>0</number>
+           <number>5</number>
           </property>
           <property name="spacing">
            <number>0</number>
           </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>Telephone:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>+39(xxx)xxx-xx-xx</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
+          <item row="2" column="0">
            <widget class="QLabel" name="label_6">
             <property name="text">
              <string>E-mail:</string>
             </property>
            </widget>
           </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Telephone:</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="1">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>+38(xxx)xxx-xx-xx</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
            <widget class="QLabel" name="label_8">
             <property name="text">
              <string>xxxx.xxxx@proleit.com</string>
             </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2">
+           <widget class="QFrame" name="frame">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="Line" name="line_1">
+               <property name="lineWidth">
+                <number>2</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -506,6 +615,13 @@
           <property name="bottomMargin">
            <number>0</number>
           </property>
+          <item>
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QLabel" name="label_9">
             <property name="sizePolicy">
@@ -565,7 +681,7 @@
         <number>1</number>
        </property>
        <item>
-        <widget class="QFrame" name="frame">
+        <widget class="QFrame" name="frame_top">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -595,7 +711,7 @@
            <number>1</number>
           </property>
           <item alignment="Qt::AlignLeft">
-           <widget class="QFrame" name="frame_4">
+           <widget class="QFrame" name="frame_menu">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -604,7 +720,7 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="pushButton_menu">
                <property name="minimumSize">
                 <size>
                  <width>32</width>
@@ -642,9 +758,8 @@
               <widget class="QLabel" name="label_10">
                <property name="font">
                 <font>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>NovaFlat</family>
+                 <pointsize>-1</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -653,7 +768,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_9">
+              <widget class="QPushButton" name="pushButton_calendar">
                <property name="minimumSize">
                 <size>
                  <width>32</width>
@@ -688,9 +803,8 @@
               <widget class="QLabel" name="label_15">
                <property name="font">
                 <font>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>NovaFlat</family>
+                 <pointsize>-1</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -702,7 +816,7 @@
            </widget>
           </item>
           <item alignment="Qt::AlignRight|Qt::AlignTop">
-           <widget class="QFrame" name="frame_8">
+           <widget class="QFrame" name="frame_window">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -711,37 +825,22 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <property name="spacing">
-              <number>1</number>
+              <number>5</number>
              </property>
              <property name="leftMargin">
-              <number>1</number>
+              <number>5</number>
              </property>
              <property name="topMargin">
-              <number>1</number>
+              <number>5</number>
              </property>
              <property name="rightMargin">
-              <number>1</number>
+              <number>5</number>
              </property>
              <property name="bottomMargin">
-              <number>1</number>
+              <number>5</number>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton_8">
-               <property name="minimumSize">
-                <size>
-                 <width>24</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>24</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
+              <widget class="QPushButton" name="pushButton_window_fold">
                <property name="text">
                 <string/>
                </property>
@@ -752,48 +851,18 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_7">
-               <property name="minimumSize">
-                <size>
-                 <width>24</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>24</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
+              <widget class="QPushButton" name="pushButton_window_resize">
                <property name="text">
                 <string/>
                </property>
                <property name="icon">
                 <iconset resource="icons.qrc">
-                 <normaloff>:/Drip Icons V2/Icons/Drip Icons V2/expand-2.svg</normaloff>:/Drip Icons V2/Icons/Drip Icons V2/expand-2.svg</iconset>
+                 <normaloff>:/Drip Icons V2/Icons/Drip Icons V2/expand.svg</normaloff>:/Drip Icons V2/Icons/Drip Icons V2/expand.svg</iconset>
                </property>
               </widget>
              </item>
-             <item alignment="Qt::AlignTop">
-              <widget class="QPushButton" name="pushButton_6">
-               <property name="minimumSize">
-                <size>
-                 <width>24</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>24</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
+             <item>
+              <widget class="QPushButton" name="pushButton_window_close">
                <property name="text">
                 <string/>
                </property>
@@ -810,7 +879,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="frame_2">
+        <widget class="QFrame" name="frame_body">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -841,7 +910,7 @@
             <widget class="QWidget" name="stack_1">
              <layout class="QVBoxLayout" name="verticalLayout_12">
               <item>
-               <widget class="QFrame" name="frame_13">
+               <widget class="QFrame" name="frame_bar_name">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -873,7 +942,7 @@
                  <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QLabel" name="label_11">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -892,9 +961,8 @@
                    </property>
                    <property name="font">
                     <font>
-                     <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <family>NovaFlat</family>
+                     <pointsize>-1</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -912,7 +980,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QFrame" name="frame_12">
+               <widget class="QFrame" name="frame_bar">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -984,9 +1052,8 @@
                    </property>
                    <property name="font">
                     <font>
-                     <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <family>NovaFlat</family>
+                     <pointsize>-1</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -1076,9 +1143,8 @@
                    </property>
                    <property name="font">
                     <font>
-                     <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <family>NovaFlat</family>
+                     <pointsize>-1</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -1184,9 +1250,8 @@
                    </property>
                    <property name="font">
                     <font>
-                     <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <family>NovaFlat</family>
+                     <pointsize>-1</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -1276,9 +1341,8 @@
                    </property>
                    <property name="font">
                     <font>
-                     <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <family>NovaFlat</family>
+                     <pointsize>-1</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -1319,8 +1383,8 @@
          </layout>
         </widget>
        </item>
-       <item>
-        <widget class="QFrame" name="frame_3">
+       <item alignment="Qt::AlignBottom">
+        <widget class="QFrame" name="frame_footer">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -1356,17 +1420,26 @@
            <number>1</number>
           </property>
           <item>
-           <widget class="QFrame" name="frame_6">
+           <widget class="QFrame" name="frame_version">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>EMS v.1.0.0 </string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
-           <widget class="QFrame" name="frame_9">
+           <widget class="QFrame" name="frame_">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -1383,7 +1456,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <resources>
   <include location="icons.qrc"/>
