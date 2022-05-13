@@ -32,10 +32,16 @@ class Ui_MainWindow(object):
 "{\n"
 "    background-color: rgba(33, 43, 51, 100);\n"
 "}\n"
+"#stackedWidget QLabel{\n"
+"        font: bold;\n"
+"}\n"
 "#stackWidget \n"
 "{\n"
 "    font-size: 12px;\n"
 "    font: bold;\n"
+"}\n"
+"#frame_buttons_1 QPushButton:hover{ \n"
+"    color: white; \n"
 "}\n"
 "#frame_window QPushButton{\n"
 "    padding: 5px;\n"
@@ -46,6 +52,9 @@ class Ui_MainWindow(object):
 "    text-align: center;\n"
 "    font: bold;\n"
 "}\n"
+"#frame_window QPushButton:hover{\n"
+"    background-color: rgb(224, 224, 224);\n"
+"}\n"
 "#frame_tool_box QPushButton{\n"
 "    padding: 5px;\n"
 "    border-radius: 5px;\n"
@@ -54,6 +63,10 @@ class Ui_MainWindow(object):
 "    text-style: solid;\n"
 "    text-align: left;\n"
 "    font: bold;\n"
+"}\n"
+"#frame_tool_box QPushButton:hover{\n"
+"    background-color: rgb(224, 224, 224);\n"
+"    color: rgb(96, 96, 96)\n"
 "}\n"
 "#toolBox{\n"
 "    background-color: rgba(33, 43, 51, 100);\n"
@@ -69,6 +82,12 @@ class Ui_MainWindow(object):
 "#line_1, #line_2{\n"
 "    border: 1px solid black;\n"
 "    border-style: inset;\n"
+"}\n"
+"#frame_menu QPushButton{\n"
+"    font: bold;\n"
+"}\n"
+"#frame_menu QPushButton:hover{\n"
+"    color: white;\n"
 "}")
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
@@ -133,10 +152,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.toolBox = QtWidgets.QToolBox(self.frame_tool_box)
-        self.toolBox.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.toolBox.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.toolBox.setObjectName("toolBox")
         self.page_charts = QtWidgets.QWidget()
-        self.page_charts.setGeometry(QtCore.QRect(0, 0, 245, 306))
+        self.page_charts.setGeometry(QtCore.QRect(0, 0, 245, 274))
         self.page_charts.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.page_charts.setObjectName("page_charts")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.page_charts)
@@ -296,42 +315,26 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.frame_menu)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.pushButton_menu = QtWidgets.QPushButton(self.frame_menu)
-        self.pushButton_menu.setMinimumSize(QtCore.QSize(32, 32))
-        self.pushButton_menu.setMaximumSize(QtCore.QSize(32, 32))
+        self.pushButton_menu.setMinimumSize(QtCore.QSize(100, 32))
+        self.pushButton_menu.setMaximumSize(QtCore.QSize(100, 32))
         self.pushButton_menu.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_menu.setAutoFillBackground(False)
-        self.pushButton_menu.setText("")
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap(":/Drip Icons V2/Icons/Drip Icons V2/menu.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_menu.setIcon(icon5)
         self.pushButton_menu.setIconSize(QtCore.QSize(32, 32))
         self.pushButton_menu.setObjectName("pushButton_menu")
         self.horizontalLayout_6.addWidget(self.pushButton_menu)
-        self.label_10 = QtWidgets.QLabel(self.frame_menu)
-        font = QtGui.QFont()
-        font.setFamily("NovaFlat")
-        font.setPointSize(-1)
-        self.label_10.setFont(font)
-        self.label_10.setObjectName("label_10")
-        self.horizontalLayout_6.addWidget(self.label_10)
         self.pushButton_calendar = QtWidgets.QPushButton(self.frame_menu)
-        self.pushButton_calendar.setMinimumSize(QtCore.QSize(32, 32))
-        self.pushButton_calendar.setMaximumSize(QtCore.QSize(32, 32))
+        self.pushButton_calendar.setMinimumSize(QtCore.QSize(100, 32))
+        self.pushButton_calendar.setMaximumSize(QtCore.QSize(100, 32))
         self.pushButton_calendar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton_calendar.setText("")
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/Drip Icons V2/Icons/Drip Icons V2/calendar.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_calendar.setIcon(icon6)
         self.pushButton_calendar.setIconSize(QtCore.QSize(32, 32))
         self.pushButton_calendar.setObjectName("pushButton_calendar")
         self.horizontalLayout_6.addWidget(self.pushButton_calendar)
-        self.label_15 = QtWidgets.QLabel(self.frame_menu)
-        font = QtGui.QFont()
-        font.setFamily("NovaFlat")
-        font.setPointSize(-1)
-        self.label_15.setFont(font)
-        self.label_15.setObjectName("label_15")
-        self.horizontalLayout_6.addWidget(self.label_15)
         self.horizontalLayout_3.addWidget(self.frame_menu, 0, QtCore.Qt.AlignLeft)
         self.frame_window = QtWidgets.QFrame(self.frame_top)
         self.frame_window.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -342,6 +345,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.setSpacing(5)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.pushButton_window_fold = QtWidgets.QPushButton(self.frame_window)
+        self.pushButton_window_fold.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_window_fold.setText("")
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap(":/Drip Icons V2/Icons/Drip Icons V2/minus.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -349,6 +353,7 @@ class Ui_MainWindow(object):
         self.pushButton_window_fold.setObjectName("pushButton_window_fold")
         self.horizontalLayout_5.addWidget(self.pushButton_window_fold)
         self.pushButton_window_resize = QtWidgets.QPushButton(self.frame_window)
+        self.pushButton_window_resize.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_window_resize.setText("")
         icon8 = QtGui.QIcon()
         icon8.addPixmap(QtGui.QPixmap(":/Drip Icons V2/Icons/Drip Icons V2/expand.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -356,6 +361,7 @@ class Ui_MainWindow(object):
         self.pushButton_window_resize.setObjectName("pushButton_window_resize")
         self.horizontalLayout_5.addWidget(self.pushButton_window_resize)
         self.pushButton_window_close = QtWidgets.QPushButton(self.frame_window)
+        self.pushButton_window_close.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_window_close.setText("")
         icon9 = QtGui.QIcon()
         icon9.addPixmap(QtGui.QPixmap(":/Drip Icons V2/Icons/Drip Icons V2/cross.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -398,6 +404,9 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("NovaFlat")
         font.setPointSize(-1)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
         self.label_11.setFont(font)
         self.label_11.setTextFormat(QtCore.Qt.AutoText)
         self.label_11.setAlignment(QtCore.Qt.AlignCenter)
@@ -441,6 +450,9 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("NovaFlat")
         font.setPointSize(-1)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
         self.label_3.setFont(font)
         self.label_3.setTextFormat(QtCore.Qt.AutoText)
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)
@@ -484,6 +496,9 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("NovaFlat")
         font.setPointSize(-1)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
         self.label_12.setFont(font)
         self.label_12.setTextFormat(QtCore.Qt.AutoText)
         self.label_12.setAlignment(QtCore.Qt.AlignCenter)
@@ -529,6 +544,9 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("NovaFlat")
         font.setPointSize(-1)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
         self.label_13.setFont(font)
         self.label_13.setTextFormat(QtCore.Qt.AutoText)
         self.label_13.setAlignment(QtCore.Qt.AlignCenter)
@@ -572,6 +590,9 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("NovaFlat")
         font.setPointSize(-1)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
         self.label_14.setFont(font)
         self.label_14.setTextFormat(QtCore.Qt.AutoText)
         self.label_14.setAlignment(QtCore.Qt.AlignCenter)
@@ -627,7 +648,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.toolBox.setCurrentIndex(0)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -645,8 +666,8 @@ class Ui_MainWindow(object):
         self.label_7.setText(_translate("MainWindow", "+38(xxx)xxx-xx-xx"))
         self.label_8.setText(_translate("MainWindow", "xxxx.xxxx@proleit.com"))
         self.label_9.setText(_translate("MainWindow", "Information"))
-        self.label_10.setText(_translate("MainWindow", "MENU"))
-        self.label_15.setText(_translate("MainWindow", "CALENDAR"))
+        self.pushButton_menu.setText(_translate("MainWindow", "MENU"))
+        self.pushButton_calendar.setText(_translate("MainWindow", "CALENDAR"))
         self.label_11.setText(_translate("MainWindow", "Data Records"))
         self.label_3.setText(_translate("MainWindow", "Percentage Bar Chart"))
         self.label_12.setText(_translate("MainWindow", "Nested Donuts"))
