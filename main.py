@@ -66,7 +66,7 @@ class App(QtWidgets.QMainWindow):
         self.ui.pushButton_window_resize.clicked.connect(lambda: self.mini_maximize())
 
         # window close
-        self.ui.pushButton_window_close.clicked.connect(lambda: self.close())\
+        self.ui.pushButton_window_close.clicked.connect(lambda: self.close())
 
         # nevigate on stack
         self.ui.pushButton_1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_1))
