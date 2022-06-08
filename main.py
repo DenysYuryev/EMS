@@ -8,6 +8,7 @@ import csv
 
 from ems_main_ui import *
 from ems_main_ui import Ui_MainWindow
+from ems_calendar_ui import Ui_Calendar
 
 from PySide6.QtGui import QPainter, QColor, QColorSpace
 from PySide6.QtCharts import QChart
@@ -28,8 +29,6 @@ shadow_elements = {
     "frame_body",
     "frame_footer"
 }
-
-
 # main class window
 class App(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
@@ -69,11 +68,26 @@ class App(QtWidgets.QMainWindow):
         self.ui.pushButton_window_close.clicked.connect(lambda: self.close())
 
         # nevigate on stack
+        self.ui.stackedWidget.setCurrentWidget(self.ui.stack_1)
+
+        # call calendar
+        self.ui.pushButton_calendar.clicked.connect(lambda: self.openCalendar())
+
         self.ui.pushButton_1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_1))
         self.ui.pushButton_2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_2))
         self.ui.pushButton_3.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_3))
         self.ui.pushButton_4.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_4))
         self.ui.pushButton_5.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_5))
+        #
+        self.ui.pushButton_11.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_6))
+        self.ui.pushButton_11.clicked.connect(lambda checked, dbName='dbIdc': self.sql_con(dbName))
+        #self.sql_con(dbName='dbIdc')
+        self.ui.pushButton_12.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_7))
+        self.ui.pushButton_13.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_8))
+        self.ui.pushButton_14.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_9))
+        self.ui.pushButton_15.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_10))
+        self.ui.pushButton_16.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_11))
+        self.ui.pushButton_16.clicked.connect(lambda checked, dbName='dbIdc': self.sql_con(dbName))
 
         # move window on mouse drag event on tittle bar
         def moveWindow(e):
@@ -114,6 +128,126 @@ class App(QtWidgets.QMainWindow):
         self.animation.setEndValue(newWidth)
         self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
         self.animation.start()
+
+# SQL connection and data reading
+    SERVER_NAME = "VM-SV101-TULCHI\\PLANTIT"
+    DATABASE_NAME = "dbIdc"
+    USERNAME = "sa"
+    PASSWORD = "ProAdmin777"
+
+ # SQL connection
+    def sql_con(self, dbName):
+        connection = f'DRIVER={{SQL Server}};' \
+                     f'SERVER={self.SERVER_NAME};' \
+                     f'UID={self.USERNAME};' \
+                     f'PWD={self.PASSWORD};' \
+                     f'DATABASE={self.DATABASE_NAME}'
+        global db
+        try:
+            db = QSqlDatabase.addDatabase('QODBC')
+            db.setDatabaseName(connection)
+            self.ui.plainTextEdit.appendPlainText(f'Processing connection to... : {self.SERVER_NAME}')
+
+            if db.open():
+                print('Connection to SQL server successfully')
+                self.ui.plainTextEdit.appendPlainText('Connection to SQL server successfully')
+
+                currentWidget = self.ui.stackedWidget.currentWidget()
+
+                if currentWidget == self.ui.stack_6:
+                    self.disp_data('tblEmsPowerMeter', 6)
+                elif currentWidget == self.ui.stack_11:
+                    self.disp_data('tblEmsObject', 11)
+            else:
+                self.ui.plainTextEdit.appendPlainText('Connection to SQL server failed')
+                print('Connection to SQL server failed')
+                return
+        except Exception as Error:
+            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Read data from SQL error: {Error}.\n")
+            if res == QtWidgets.QMessageBox.Ok:
+                db.close()
+                return
+
+    def disp_data(self, table_name, stack_num):
+
+        print(f'Table name: {table_name} \n Stack num: {stack_num}')
+
+        SQL_STATEMENT = f'SELECT * FROM dbo.{table_name}'
+        self.ui.plainTextEdit.appendPlainText(f'Processing query... : {SQL_STATEMENT}')
+        try:
+            qry = QSqlQuery(db)
+            qry.prepare(SQL_STATEMENT)
+            qry.exec()
+
+            fields = qry.record().count()
+            rows = qry.numRowsAffected()
+
+            print(f'Fields: {fields} \n Rows: {rows}')
+            self.ui.plainTextEdit.appendPlainText(f'Fields: {fields} \n Rows: {rows}')
+
+
+            if stack_num == 6:
+                tbl = self.ui.table_power_cnt
+                self.ui.table_power_cnt.setColumnCount(fields)
+            elif stack_num == 11:
+                tbl = self.ui.table_product_cnt
+                self.ui.table_product_cnt.setColumnCount(fields)
+
+            print(f"Table: {tbl}")
+
+            list_fields = []
+            list_fields.clear()
+            if fields > 0:
+                for field in range(fields):
+                    item = qry.record().fieldName(field)
+                    list_fields.append(item)
+                    tbl.setColumnWidth(field, len(list_fields[field]))
+                print(f'Item fields: {list_fields}')
+                tbl.setHorizontalHeaderLabels(list_fields)
+                tbl.resizeColumnsToContents()
+
+            item = []
+            if rows > 0:
+                qry.first()
+                for r in range(rows):
+                    row = tbl.rowCount()
+                    tbl.setRowCount(r + 1)
+                    item.clear()
+                    for c in range(fields):
+                        item.append(qry.value(c))
+                        tbl.setItem(row, c, QtWidgets.QTableWidgetItem(str(item[c])))
+                    qry.next()
+                    print(f'Item {row}: {item}')
+                tbl.resizeColumnsToContents()
+            db.close()
+            return
+        except Exception as Error:
+            res = QtWidgets.QMessageBox.critical(self, f'Error', f"Read data from SQL error: {Error}.\n")
+            if res == QtWidgets.QMessageBox.Ok:
+                db.close()
+                return
+
+
+
+    def openCalendar(self):
+        dialog = Calendar(self)
+        dialog.exec_()
+
+# calendar class window
+class Calendar(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super(Calendar, self).__init__(parent)
+        self.ui = Ui_Calendar()
+        self.ui.setupUi(self)
+
+        self.SDate = None
+        self.EDate = None
+
+        print (f'test calendar')
+
+    # calendar
+    def CalendarAction(self):
+        pass
 
 
 if __name__ == "__main__":
