@@ -5,10 +5,10 @@
 import os
 import sys
 import csv
+import pandas as pd
 
 from ems_main_ui import *
-from ems_main_ui import Ui_MainWindow
-from ems_calendar_ui import Ui_Calendar
+from ems_calendar_ui import *
 
 from PySide6.QtGui import QPainter, QColor, QColorSpace
 from PySide6.QtCharts import QChart
@@ -20,8 +20,8 @@ from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+from PyQt5.QtGui import QPalette, QTextCharFormat
+from PyQt5.QtCore import Qt
 
 shadow_elements = {
     "frame_left_menu",
@@ -40,7 +40,7 @@ class App(QtWidgets.QMainWindow):
         for x in shadow_elements:
             effect = QtWidgets.QGraphicsDropShadowEffect(self)
             effect.setBlurRadius(10)
-            effect.setColor(QColor(50, 120, 160))
+       #     effect.setColor(QColor(50, 120, 160))      ?????
             effect.setXOffset(0)
             effect.setYOffset(0)
             getattr(self.ui, x).setGraphicsEffect(effect)
@@ -67,7 +67,7 @@ class App(QtWidgets.QMainWindow):
         # window close
         self.ui.pushButton_window_close.clicked.connect(lambda: self.close())
 
-        # nevigate on stack
+        # navigate on stack
         self.ui.stackedWidget.setCurrentWidget(self.ui.stack_1)
 
         # call calendar
@@ -170,7 +170,25 @@ class App(QtWidgets.QMainWindow):
 
     def disp_data(self, table_name, stack_num):
 
-        print(f'Table name: {table_name} \n Stack num: {stack_num}')
+        if SDate != None and EDate != None:
+            SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData ''{SDate} 00:00:00'', ''{EDate} 23:59:59'', ''CNT_003-FT01''"
+            print(f"Request to MVA: {SQL_STATEMENT}")
+            try:
+                qry = QSqlQuery(db)
+                qry.prepare(SQL_STATEMENT)
+                qry.exec()
+
+                fields = qry.record().count()
+                rows = qry.numRowsAffected()
+
+                return
+            except Exception as Error:
+                res = QtWidgets.QMessageBox.critical(self, f'Error', f"Read data from MVA error: {Error}.\n")
+                if res == QtWidgets.QMessageBox.Ok:
+                    db.close()
+                    return
+
+        print(f"Table name: {table_name} \n Stack num: {stack_num}")
 
         SQL_STATEMENT = f'SELECT * FROM dbo.{table_name}'
         self.ui.plainTextEdit.appendPlainText(f'Processing query... : {SQL_STATEMENT}')
@@ -227,9 +245,8 @@ class App(QtWidgets.QMainWindow):
                 db.close()
                 return
 
-
-
     def openCalendar(self):
+        # Date picker
         dialog = Calendar(self)
         dialog.exec_()
 
@@ -243,11 +260,51 @@ class Calendar(QtWidgets.QDialog):
         self.SDate = None
         self.EDate = None
 
-        print (f'test calendar')
+        self.highlighter = QTextCharFormat()
+        self.highlighter.setBackground(self.palette().brush(QPalette.Highlight))
+        self.highlighter.setForeground(self.palette().color(QPalette.HighlightedText))
+
+        self.ui.calendarWidget.clicked.connect(self.select_date_range)
+        self.ui.pushButton_apply.clicked.connect(self.print_dates_selected)
+
+    def print_dates_selected(self):
+        if self.SDate and self.EDate:
+            start_date = min(self.SDate.toPyDate(), self.EDate.toPyDate())
+            end_date = max(self.SDate.toPyDate(), self.EDate.toPyDate())
+            date_list = pd.date_range(start=start_date, end=end_date)
+            print(date_list)
 
     # calendar
-    def CalendarAction(self):
-        pass
+    def select_date_range(self, date_value):
+        print(f'Data value: {date_value}')
+        self.highlight_range(QTextCharFormat())
+
+        modifiers = QtWidgets.QApplication.keyboardModifiers()
+
+        if modifiers == QtCore.Qt.ShiftModifier:
+            print('Shift+Click')
+        elif modifiers == QtCore.Qt.ControlModifier:
+            print('Ctr+Click')
+        elif modifiers == (QtCore.Qt.ControlModifier & modifiers == QtCore.Qt.ShiftModifier):
+            print('Ctr+Shift+Click')
+        else:
+            print('Click')
+
+        if (modifiers == QtCore.Qt.ShiftModifier) and self.SDate:
+            self.EDate = date_value
+            self.highlight_range(self.highlighter)
+        else:
+            self.SDate = date_value
+            self.EDate = None
+
+    def highlight_range(self, format):
+        print(f'Date range: {self.SDate} - {self.EDate}')
+        if self.SDate and self.EDate:
+            d1 = min(self.SDate, self.EDate)
+            d2 = max(self.SDate, self.EDate)
+            while d2 >= d1:
+                self.ui.calendarWidget.setDateTextFormat(d1, format)
+                d1 = d1.addDays(1)
 
 
 if __name__ == "__main__":
