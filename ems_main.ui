@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1078</width>
-    <height>701</height>
+    <width>940</width>
+    <height>619</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1210,7 +1210,7 @@
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>10</number>
+             <number>5</number>
             </property>
             <widget class="QWidget" name="stack_1">
              <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1787,23 +1787,80 @@
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
-                <layout class="QGridLayout" name="gridLayout_7">
-                 <item row="0" column="1">
-                  <widget class="QTableWidget" name="table_power_cnt"/>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QTreeWidget" name="tree_power_cnt">
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <item>
+                  <widget class="QFrame" name="frame_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>200</width>
+                     <height>410</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>200</width>
                      <height>16777215</height>
                     </size>
                    </property>
-                   <column>
-                    <property name="text">
-                     <string notr="true">1</string>
-                    </property>
-                   </column>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_33">
+                    <item>
+                     <widget class="QTreeWidget" name="tree_power_cnt">
+                      <property name="maximumSize">
+                       <size>
+                        <width>200</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <column>
+                       <property name="text">
+                        <string notr="true">1</string>
+                       </property>
+                      </column>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="frame_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>400</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_34">
+                    <item>
+                     <widget class="QTableView" name="tableView"/>
+                    </item>
+                    <item>
+                     <widget class="QTableWidget" name="table_power_cnt"/>
+                    </item>
+                   </layout>
                   </widget>
                  </item>
                 </layout>
@@ -2279,6 +2336,9 @@
                 <layout class="QGridLayout" name="gridLayout_11">
                  <item row="0" column="0">
                   <widget class="QTableWidget" name="table_product_cnt"/>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QTableWidget" name="table_product_mva"/>
                  </item>
                 </layout>
                </widget>

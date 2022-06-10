@@ -13,9 +13,6 @@ from ems_calendar_ui import *
 from PySide6.QtGui import QPainter, QColor, QColorSpace
 from PySide6.QtCharts import QChart
 
-from random import randrange
-from functools import partial
-
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
 from PyQt5.QtWidgets import *
@@ -23,6 +20,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import QPalette, QTextCharFormat
 from PyQt5.QtCore import Qt
 
+# style sets buttons
 shadow_elements = {
     "frame_left_menu",
     "frame_menu",
@@ -40,7 +38,7 @@ class App(QtWidgets.QMainWindow):
         for x in shadow_elements:
             effect = QtWidgets.QGraphicsDropShadowEffect(self)
             effect.setBlurRadius(10)
-       #     effect.setColor(QColor(50, 120, 160))      ?????
+            effect.setColor(QtGui.QColor(0, 50, 120, 160))
             effect.setXOffset(0)
             effect.setYOffset(0)
             getattr(self.ui, x).setGraphicsEffect(effect)
@@ -153,7 +151,6 @@ class App(QtWidgets.QMainWindow):
                 self.ui.plainTextEdit.appendPlainText('Connection to SQL server successfully')
 
                 currentWidget = self.ui.stackedWidget.currentWidget()
-
                 if currentWidget == self.ui.stack_6:
                     self.disp_data('tblEmsPowerMeter', 6)
                 elif currentWidget == self.ui.stack_11:
@@ -169,24 +166,6 @@ class App(QtWidgets.QMainWindow):
                 return
 
     def disp_data(self, table_name, stack_num):
-
-        if SDate != None and EDate != None:
-            SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData ''{SDate} 00:00:00'', ''{EDate} 23:59:59'', ''CNT_003-FT01''"
-            print(f"Request to MVA: {SQL_STATEMENT}")
-            try:
-                qry = QSqlQuery(db)
-                qry.prepare(SQL_STATEMENT)
-                qry.exec()
-
-                fields = qry.record().count()
-                rows = qry.numRowsAffected()
-
-                return
-            except Exception as Error:
-                res = QtWidgets.QMessageBox.critical(self, f'Error', f"Read data from MVA error: {Error}.\n")
-                if res == QtWidgets.QMessageBox.Ok:
-                    db.close()
-                    return
 
         print(f"Table name: {table_name} \n Stack num: {stack_num}")
 
@@ -245,8 +224,86 @@ class App(QtWidgets.QMainWindow):
                 db.close()
                 return
 
+
+    def read_MVA (self, sDate, eDate, nTag = 'CNT_003-FT01'):
+
+        print(f'Start date to MVA: {sDate}\nEnd Date to MVA: {eDate}')
+
+        if sDate != '' and eDate != '':
+            SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData ''{sDate} 00:00:00'', ''{eDate} 23:59:59'', ''{nTag}''"
+            print(f"Request to MVA: {SQL_STATEMENT}")
+            try:
+                qry = QSqlQuery(db)
+                qry.prepare(SQL_STATEMENT)
+                qry.exec()
+
+                fields = qry.record().count()
+                rows = qry.numRowsAffected()
+
+                return
+            except Exception as Error:
+                res = QtWidgets.QMessageBox.critical(self, f'Error', f"Read data from MVA error: {Error}.\n")
+                if res == QtWidgets.QMessageBox.Ok:
+                    db.close()
+                    return
+        elif sDate != '' and eDate == '':
+            SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData ''{sDate} 00:00:00'', ''{sDate} 23:59:59'', ''{nTag}''"
+            print(f"Request to MVA: {SQL_STATEMENT}")
+            try:
+                qry = QSqlQuery(db)
+                qry.prepare(SQL_STATEMENT)
+                qry.exec()
+
+                fields = qry.record().count()
+                rows = qry.numRowsAffected()
+
+                currentWidget = self.ui.stackedWidget.currentWidget()
+                if currentWidget == self.ui.stack_6:
+                    stack_num = 6
+                elif currentWidget == self.ui.stack_11:
+                    stack_num = 11
+
+                if stack_num == 6:
+                    tbl = self.ui.table_power_cnt
+                    self.ui.table_power_cnt.setColumnCount(fields)
+                elif stack_num == 11:
+                    tbl = self.ui.table_product_cnt
+                    self.ui.table_product_cnt.setColumnCount(fields)
+
+                list_fields = []
+                list_fields.clear()
+                if fields > 0:
+                    for field in range(fields):
+                        item = qry.record().fieldName(field)
+                        list_fields.append(item)
+                        tbl.setColumnWidth(field, len(list_fields[field]))
+                    print(f'Item fields: {list_fields}')
+                    tbl.setHorizontalHeaderLabels(list_fields)
+                    tbl.resizeColumnsToContents()
+
+                item = []
+                if rows > 0:
+                    qry.first()
+                    for r in range(rows):
+                        row = tbl.rowCount()
+                        tbl.setRowCount(r + 1)
+                        item.clear()
+                        for c in range(fields):
+                            item.append(qry.value(c))
+                            tbl.setItem(row, c, QtWidgets.QTableWidgetItem(str(item[c])))
+                        qry.next()
+                        print(f'Item {row}: {item}')
+                    tbl.resizeColumnsToContents()
+                db.close()
+                return
+            except Exception as Error:
+                res = QtWidgets.QMessageBox.critical(self, f'Error', f"Read data from MVA error: {Error}.\n")
+                if res == QtWidgets.QMessageBox.Ok:
+                    db.close()
+                    return
+
+    # Date picker
     def openCalendar(self):
-        # Date picker
         dialog = Calendar(self)
         dialog.exec_()
 
@@ -260,6 +317,7 @@ class Calendar(QtWidgets.QDialog):
         self.SDate = None
         self.EDate = None
 
+
         self.highlighter = QTextCharFormat()
         self.highlighter.setBackground(self.palette().brush(QPalette.Highlight))
         self.highlighter.setForeground(self.palette().color(QPalette.HighlightedText))
@@ -267,20 +325,34 @@ class Calendar(QtWidgets.QDialog):
         self.ui.calendarWidget.clicked.connect(self.select_date_range)
         self.ui.pushButton_apply.clicked.connect(self.print_dates_selected)
 
+    # present selection dates range or one date
     def print_dates_selected(self):
         if self.SDate and self.EDate:
             start_date = min(self.SDate.toPyDate(), self.EDate.toPyDate())
             end_date = max(self.SDate.toPyDate(), self.EDate.toPyDate())
             date_list = pd.date_range(start=start_date, end=end_date)
             print(date_list)
+            self.SDate = start_date
+            self.EDate = end_date
+            App.read_MVA(self.SDate, self.EDate, '')
+            #print(f'Start date: {self.SDate}\nEnd date: {self.EDate}')
+            self.close()
+        else:
+            self.SDate = self.SDate.toPyDate()
+            App.read_MVA(self.SDate, '', '')
+            #print(f'Selection date: {self.SDate}')
+            self.close()
 
     # calendar
     def select_date_range(self, date_value):
-        print(f'Data value: {date_value}')
+        fDate = date_value.toString(QtCore.Qt.ISODate)
+        print(f'Data: {fDate}')
         self.highlight_range(QTextCharFormat())
 
+        # keyboard modifiers
         modifiers = QtWidgets.QApplication.keyboardModifiers()
 
+        # log ections
         if modifiers == QtCore.Qt.ShiftModifier:
             print('Shift+Click')
         elif modifiers == QtCore.Qt.ControlModifier:
@@ -290,6 +362,7 @@ class Calendar(QtWidgets.QDialog):
         else:
             print('Click')
 
+        # shift + click action to highlight range of dates
         if (modifiers == QtCore.Qt.ShiftModifier) and self.SDate:
             self.EDate = date_value
             self.highlight_range(self.highlighter)
@@ -297,9 +370,10 @@ class Calendar(QtWidgets.QDialog):
             self.SDate = date_value
             self.EDate = None
 
+    # highlight range of dates
     def highlight_range(self, format):
-        print(f'Date range: {self.SDate} - {self.EDate}')
         if self.SDate and self.EDate:
+            print(f'Date range: {self.SDate.toPyDate()} - {self.EDate.toPyDate()}')
             d1 = min(self.SDate, self.EDate)
             d2 = max(self.SDate, self.EDate)
             while d2 >= d1:
