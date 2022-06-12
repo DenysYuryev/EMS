@@ -78,14 +78,14 @@ class App(QtWidgets.QMainWindow):
         self.ui.pushButton_5.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_5))
         #
         self.ui.pushButton_11.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_6))
-        self.ui.pushButton_11.clicked.connect(lambda checked, dbName='dbIdc': self.sql_con(dbName))
+        self.ui.pushButton_11.clicked.connect(lambda checked, dbName='dbIdc': self.sql_con(dbName, 0))
         #self.sql_con(dbName='dbIdc')
         self.ui.pushButton_12.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_7))
         self.ui.pushButton_13.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_8))
         self.ui.pushButton_14.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_9))
         self.ui.pushButton_15.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_10))
         self.ui.pushButton_16.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.stack_11))
-        self.ui.pushButton_16.clicked.connect(lambda checked, dbName='dbIdc': self.sql_con(dbName))
+        self.ui.pushButton_16.clicked.connect(lambda checked, dbName='dbIdc': self.sql_con(dbName, 0))
 
         # move window on mouse drag event on tittle bar
         def moveWindow(e):
@@ -134,12 +134,13 @@ class App(QtWidgets.QMainWindow):
     PASSWORD = "ProAdmin777"
 
  # SQL connection
-    def sql_con(self, dbName):
+    def sql_con(self, dbName, mva):
         connection = f'DRIVER={{SQL Server}};' \
                      f'SERVER={self.SERVER_NAME};' \
                      f'UID={self.USERNAME};' \
                      f'PWD={self.PASSWORD};' \
-                     f'DATABASE={self.DATABASE_NAME}'
+                     f'DATABASE={dbName}'
+        print(f"{connection}")
         global db
         try:
             db = QSqlDatabase.addDatabase('QODBC')
@@ -151,9 +152,9 @@ class App(QtWidgets.QMainWindow):
                 self.ui.plainTextEdit.appendPlainText('Connection to SQL server successfully')
 
                 currentWidget = self.ui.stackedWidget.currentWidget()
-                if currentWidget == self.ui.stack_6:
+                if currentWidget == self.ui.stack_6 and mva == 0:
                     self.disp_data('tblEmsPowerMeter', 6)
-                elif currentWidget == self.ui.stack_11:
+                elif currentWidget == self.ui.stack_11 and mva == 0:
                     self.disp_data('tblEmsObject', 11)
             else:
                 self.ui.plainTextEdit.appendPlainText('Connection to SQL server failed')
@@ -232,6 +233,9 @@ class App(QtWidgets.QMainWindow):
         if sDate != '' and eDate != '':
             SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData ''{sDate} 00:00:00'', ''{eDate} 23:59:59'', ''{nTag}''"
             print(f"Request to MVA: {SQL_STATEMENT}")
+
+            #self.sql_con('dbIdc', 1)
+            print(f"Test")
             try:
                 qry = QSqlQuery(db)
                 qry.prepare(SQL_STATEMENT)
@@ -239,7 +243,7 @@ class App(QtWidgets.QMainWindow):
 
                 fields = qry.record().count()
                 rows = qry.numRowsAffected()
-
+                print(f"Fields = {fields}\nRows = {rows}")
                 return
             except Exception as Error:
                 res = QtWidgets.QMessageBox.critical(self, f'Error', f"Read data from MVA error: {Error}.\n")
@@ -247,7 +251,7 @@ class App(QtWidgets.QMainWindow):
                     db.close()
                     return
         elif sDate != '' and eDate == '':
-            SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData ''{sDate} 00:00:00'', ''{sDate} 23:59:59'', ''{nTag}''"
+            SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData '{sDate} 00:00:00', '{sDate} 23:59:59', '{nTag}'"
             print(f"Request to MVA: {SQL_STATEMENT}")
             try:
                 qry = QSqlQuery(db)
@@ -265,10 +269,10 @@ class App(QtWidgets.QMainWindow):
 
                 if stack_num == 6:
                     tbl = self.ui.table_power_cnt
-                    self.ui.table_power_cnt.setColumnCount(fields)
+                    self.ui.table_power_mva.setColumnCount(fields)
                 elif stack_num == 11:
                     tbl = self.ui.table_product_cnt
-                    self.ui.table_product_cnt.setColumnCount(fields)
+                    self.ui.table_product_mva.setColumnCount(fields)
 
                 list_fields = []
                 list_fields.clear()
@@ -328,18 +332,19 @@ class Calendar(QtWidgets.QDialog):
     # present selection dates range or one date
     def print_dates_selected(self):
         if self.SDate and self.EDate:
-            start_date = min(self.SDate.toPyDate(), self.EDate.toPyDate())
-            end_date = max(self.SDate.toPyDate(), self.EDate.toPyDate())
-            date_list = pd.date_range(start=start_date, end=end_date)
+            self.start_date = min(self.SDate.toPyDate(), self.EDate.toPyDate())
+            self.end_date = max(self.SDate.toPyDate(), self.EDate.toPyDate())
+            date_list = pd.date_range(start=self.start_date, end=self.end_date)
+            print(F"S: {self.start_date}\nE: {self.end_date}")
             print(date_list)
-            self.SDate = start_date
-            self.EDate = end_date
-            App.read_MVA(self.SDate, self.EDate, '')
+            #self.SDate = start_date
+            #self.EDate = end_date
+            App.read_MVA(self.start_date, self.end_date, '')
             #print(f'Start date: {self.SDate}\nEnd date: {self.EDate}')
             self.close()
         else:
-            self.SDate = self.SDate.toPyDate()
-            App.read_MVA(self.SDate, '', '')
+            #self.SDate = self.SDate.toPyDate()
+            App.read_MVA(self.start_date, '', '')
             #print(f'Selection date: {self.SDate}')
             self.close()
 
