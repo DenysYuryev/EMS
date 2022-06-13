@@ -1210,7 +1210,7 @@
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>5</number>
+             <number>10</number>
             </property>
             <widget class="QWidget" name="stack_1">
              <layout class="QVBoxLayout" name="verticalLayout_12">

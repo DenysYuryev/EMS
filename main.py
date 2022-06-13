@@ -226,7 +226,7 @@ class App(QtWidgets.QMainWindow):
                 return
 
 
-    def read_MVA (self, sDate, eDate, nTag = 'CNT_003-FT01'):
+    def read_MVA (self, sDate='', eDate='', nTag = 'CNT_003-FT01'):
 
         print(f'Start date to MVA: {sDate}\nEnd Date to MVA: {eDate}')
 
@@ -234,8 +234,8 @@ class App(QtWidgets.QMainWindow):
             SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData ''{sDate} 00:00:00'', ''{eDate} 23:59:59'', ''{nTag}''"
             print(f"Request to MVA: {SQL_STATEMENT}")
 
-            #self.sql_con('dbIdc', 1)
-            print(f"Test")
+            res = self.sql_con('dbIdc', 1)
+            print(f'res: {res}')
             try:
                 qry = QSqlQuery(db)
                 qry.prepare(SQL_STATEMENT)
@@ -337,15 +337,14 @@ class Calendar(QtWidgets.QDialog):
             date_list = pd.date_range(start=self.start_date, end=self.end_date)
             print(F"S: {self.start_date}\nE: {self.end_date}")
             print(date_list)
-            #self.SDate = start_date
-            #self.EDate = end_date
-            App.read_MVA(self.start_date, self.end_date, '')
-            #print(f'Start date: {self.SDate}\nEnd date: {self.EDate}')
+            instance = App()
+            instance.read_MVA(self.start_date, self.end_date, '')
+            print(f'Start date: {self.start_date}')
+            print(f'End date: {self.end_date}')
             self.close()
         else:
-            #self.SDate = self.SDate.toPyDate()
-            App.read_MVA(self.start_date, '', '')
-            #print(f'Selection date: {self.SDate}')
+            instance = App()
+            instance.read_MVA(self.start_date, '', '')
             self.close()
 
     # calendar
