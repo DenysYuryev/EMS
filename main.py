@@ -154,8 +154,12 @@ class App(QtWidgets.QMainWindow):
                 currentWidget = self.ui.stackedWidget.currentWidget()
                 if currentWidget == self.ui.stack_6 and mva == 0:
                     self.disp_data('tblEmsPowerMeter', 6)
+                    print(f'Call -> tblEmsPowerMeter')
                 elif currentWidget == self.ui.stack_11 and mva == 0:
                     self.disp_data('tblEmsObject', 11)
+                    print(f'Call -> tblEmsObject')
+                else:
+                    print(f'Call -> MVA')
             else:
                 self.ui.plainTextEdit.appendPlainText('Connection to SQL server failed')
                 print('Connection to SQL server failed')
@@ -226,16 +230,18 @@ class App(QtWidgets.QMainWindow):
                 return
 
 
-    def read_MVA (self, sDate='', eDate='', nTag = 'CNT_003-FT01'):
-
+    def read_MVA (self, sDate='', eDate='', nTag = ''):
+        nTag = 'CNT_003-FT01'
         print(f'Start date to MVA: {sDate}\nEnd Date to MVA: {eDate}')
 
+        res = self.sql_con('dbIdc', 1)
+        print(f'res: {res}')
+
         if sDate != '' and eDate != '':
-            SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData ''{sDate} 00:00:00'', ''{eDate} 23:59:59'', ''{nTag}''"
+            SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData '{sDate} 00:00:00', '{eDate} 23:59:59', '{nTag}'"
             print(f"Request to MVA: {SQL_STATEMENT}")
 
-            res = self.sql_con('dbIdc', 1)
-            print(f'res: {res}')
+
             try:
                 qry = QSqlQuery(db)
                 qry.prepare(SQL_STATEMENT)
@@ -243,7 +249,8 @@ class App(QtWidgets.QMainWindow):
 
                 fields = qry.record().count()
                 rows = qry.numRowsAffected()
-                print(f"Fields = {fields}\nRows = {rows}")
+                print(f"Fields = {fields}\n"
+                      f"Rows = {rows}")
                 return
             except Exception as Error:
                 res = QtWidgets.QMessageBox.critical(self, f'Error', f"Read data from MVA error: {Error}.\n")
@@ -253,58 +260,63 @@ class App(QtWidgets.QMainWindow):
         elif sDate != '' and eDate == '':
             SQL_STATEMENT = f"EXEC dbo.sp_EmsGetMVAData '{sDate} 00:00:00', '{sDate} 23:59:59', '{nTag}'"
             print(f"Request to MVA: {SQL_STATEMENT}")
-            try:
-                qry = QSqlQuery(db)
-                qry.prepare(SQL_STATEMENT)
-                qry.exec()
+        try:
+            qry = QSqlQuery(db)
+            qry.prepare(SQL_STATEMENT)
+            qry.exec()
 
-                fields = qry.record().count()
-                rows = qry.numRowsAffected()
+            fields = qry.record().count()
+            rows = qry.numRowsAffected()
 
-                currentWidget = self.ui.stackedWidget.currentWidget()
-                if currentWidget == self.ui.stack_6:
-                    stack_num = 6
-                elif currentWidget == self.ui.stack_11:
-                    stack_num = 11
+            currentWidget = self.ui.stackedWidget.currentWidget()
+            print(f'Current widget: {currentWidget}')
 
-                if stack_num == 6:
-                    tbl = self.ui.table_power_cnt
-                    self.ui.table_power_mva.setColumnCount(fields)
-                elif stack_num == 11:
-                    tbl = self.ui.table_product_cnt
-                    self.ui.table_product_mva.setColumnCount(fields)
+            if currentWidget == self.ui.stack_6:
+                stack_num = 6
+            elif currentWidget == self.ui.stack_11:
+                stack_num = 11
 
-                list_fields = []
-                list_fields.clear()
-                if fields > 0:
-                    for field in range(fields):
-                        item = qry.record().fieldName(field)
-                        list_fields.append(item)
-                        tbl.setColumnWidth(field, len(list_fields[field]))
-                    print(f'Item fields: {list_fields}')
-                    tbl.setHorizontalHeaderLabels(list_fields)
-                    tbl.resizeColumnsToContents()
+            if stack_num == 6:
+                tbl = self.ui.table_power_cnt
+                self.ui.table_power_mva.setColumnCount(fields)
+            elif stack_num == 11:
+                tbl = self.ui.table_product_cnt
+                self.ui.table_product_mva.setColumnCount(fields)
 
-                item = []
-                if rows > 0:
-                    qry.first()
-                    for r in range(rows):
-                        row = tbl.rowCount()
-                        tbl.setRowCount(r + 1)
-                        item.clear()
-                        for c in range(fields):
-                            item.append(qry.value(c))
-                            tbl.setItem(row, c, QtWidgets.QTableWidgetItem(str(item[c])))
-                        qry.next()
-                        print(f'Item {row}: {item}')
-                    tbl.resizeColumnsToContents()
+            list_fields = []
+            list_fields.clear()
+            if fields > 0:
+                for field in range(fields):
+                    item = qry.record().fieldName(field)
+                    list_fields.append(item)
+                    tbl.setColumnWidth(field, len(list_fields[field]))
+                print(f'Item fields: {list_fields}')
+                tbl.setHorizontalHeaderLabels(list_fields)
+                tbl.resizeColumnsToContents()
+
+            item = []
+            if rows > 0:
+                qry.first()
+                for r in range(rows):
+                    row = tbl.rowCount()
+                    tbl.setRowCount(r + 1)
+                    item.clear()
+                    for c in range(fields):
+                        item.append(qry.value(c))
+                        tbl.setItem(row, c, QtWidgets.QTableWidgetItem(str(item[c])))
+                    qry.next()
+                    print(f'Item {row}: {item}')
+                tbl.resizeColumnsToContents()
+            db.close()
+            return
+        except Exception as Error:
+            res = QtWidgets.QMessageBox.critical(self, f'Error', f"Read data from MVA error: {Error}.\n")
+            if res == QtWidgets.QMessageBox.Ok:
                 db.close()
                 return
-            except Exception as Error:
-                res = QtWidgets.QMessageBox.critical(self, f'Error', f"Read data from MVA error: {Error}.\n")
-                if res == QtWidgets.QMessageBox.Ok:
-                    db.close()
-                    return
+
+        if db.open():
+            db.close()
 
     # Date picker
     def openCalendar(self):
